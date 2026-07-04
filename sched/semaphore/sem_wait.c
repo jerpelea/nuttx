@@ -34,7 +34,9 @@
 #include <nuttx/irq.h>
 #include <nuttx/arch.h>
 #include <nuttx/mm/kmap.h>
+#ifdef CONFIG_ENABLE_ALL_SIGNALS
 #include <nuttx/signal.h>
+#endif
 
 #include "sched/sched.h"
 #include "semaphore/semaphore.h"
@@ -72,7 +74,7 @@
 
 int nxsem_wait_slow(FAR sem_t *sem)
 {
-#ifndef CONFIG_DISABLE_ALL_SIGNALS
+#ifdef CONFIG_ENABLE_ALL_SIGNALS
   sigset_t pendingset;
 #endif
   FAR struct tcb_s *rtcb = this_task();
@@ -91,7 +93,7 @@ int nxsem_wait_slow(FAR sem_t *sem)
 
   /* Make sure we were supplied with a valid semaphore. */
 
-#ifndef CONFIG_DISABLE_ALL_SIGNALS
+#ifdef CONFIG_ENABLE_ALL_SIGNALS
   /* A signal can arrive before sem_wait transitions the task to
    * TSTATE_WAIT_SEM. In that window, the wait cannot yet be aborted by
    * sem_wait_irq(). If sem_wait then blocks without re-checking unmasked

@@ -46,7 +46,6 @@
 
 void nxsig_cleanup(FAR struct tcb_s *stcb)
 {
-#ifdef CONFIG_ENABLE_ALL_SIGNALS
   FAR sigq_t *sigq;
 
   /* Deallocate all entries in the list of pending signal actions */
@@ -62,7 +61,6 @@ void nxsig_cleanup(FAR struct tcb_s *stcb)
     {
       nxsig_release_pendingsigaction(sigq);
     }
-#endif
 
   /* Misc. signal-related clean-up */
 
@@ -83,17 +81,13 @@ void nxsig_cleanup(FAR struct tcb_s *stcb)
 
 void nxsig_release(FAR struct task_group_s *group)
 {
-#ifdef CONFIG_ENABLE_ALL_SIGNALS
   FAR sigactq_t  *sigact;
-#endif
   FAR sigpendq_t *sigpend;
   irqstate_t flags;
 
-  flags = spin_lock_irqsave(&group->tg_lock);
-
-#ifdef CONFIG_ENABLE_ALL_SIGNALS
   /* Deallocate all entries in the list of signal actions */
 
+  flags = spin_lock_irqsave(&group->tg_lock);
   while ((sigact = (FAR sigactq_t *)sq_remfirst(&group->tg_sigactionq))
          != NULL)
     {
@@ -101,7 +95,6 @@ void nxsig_release(FAR struct task_group_s *group)
       nxsig_release_action(sigact);
       flags = spin_lock_irqsave(&group->tg_lock);
     }
-#endif
 
   /* Deallocate all entries in the list of pending signals */
 

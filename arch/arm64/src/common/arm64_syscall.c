@@ -159,8 +159,7 @@ uint64_t *arm64_syscall(uint64_t *regs)
   struct tcb_s **running_task = &g_running_tasks[cpu];
   struct tcb_s *tcb = this_task();
   uint64_t cmd;
-#if (defined(CONFIG_BUILD_KERNEL) || defined(CONFIG_BUILD_PROTECTED)) \
-    && defined(CONFIG_ENABLE_ALL_SIGNALS)
+#if defined(CONFIG_BUILD_KERNEL) || defined(CONFIG_BUILD_PROTECTED)
   uint64_t             spsr;
 #endif
 

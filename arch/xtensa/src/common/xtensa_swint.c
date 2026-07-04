@@ -261,7 +261,7 @@ int xtensa_swint(int irq, void *context, void *arg)
        *   A6 = ucontext
        */
 
-#if !defined(CONFIG_BUILD_FLAT) && defined(CONFIG_ENABLE_ALL_SIGNALS)
+#ifndef CONFIG_BUILD_FLAT
       case SYS_signal_handler:
         {
           struct tcb_s *rtcb  = this_task();
@@ -300,7 +300,7 @@ int xtensa_swint(int irq, void *context, void *arg)
        *   A2 = SYS_signal_handler_return
        */
 
-#if !defined(CONFIG_BUILD_FLAT) && defined(CONFIG_ENABLE_ALL_SIGNALS)
+#ifndef CONFIG_BUILD_FLAT
       case SYS_signal_handler_return:
         {
           struct tcb_s *rtcb  = this_task();

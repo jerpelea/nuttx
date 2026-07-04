@@ -75,22 +75,12 @@ int nxsig_tgkill(pid_t pid, pid_t tid, int signo)
    * will just deliver the signal to the thread ID it is requested to use.
    */
 
-#if !defined(CONFIG_DISABLE_ALL_SIGNALS) && defined(CONFIG_SCHED_HAVE_PARENT)
+#ifdef CONFIG_SCHED_HAVE_PARENT
   FAR struct tcb_s *rtcb = this_task();
 #endif
-#ifndef CONFIG_DISABLE_ALL_SIGNALS
   siginfo_t info;
   int ret;
-#endif
 
-  if (signo == 0)
-    {
-      return (nxsched_get_tcb(tid) != NULL) ? 0 : -ESRCH;
-    }
-
-#ifdef CONFIG_DISABLE_ALL_SIGNALS
-  return -ENOSYS;
-#else
   /* Make sure that the signal is valid */
 
   if (!GOOD_SIGNO(signo))
@@ -114,7 +104,6 @@ int nxsig_tgkill(pid_t pid, pid_t tid, int signo)
 
 errout:
   return ret;
-#endif
 }
 
 /****************************************************************************

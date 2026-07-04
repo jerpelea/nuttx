@@ -20,8 +20,7 @@
 #
 # ##############################################################################
 
-set(SRCS sig_nanosleep.c sig_usleep.c sig_sleep.c sig_clockwait.c sig_kill.c
-         sig_tgkill.c)
+set(SRCS sig_nanosleep.c sig_usleep.c sig_sleep.c sig_clockwait.c)
 
 if(NOT CONFIG_DISABLE_ALL_SIGNALS)
   list(
@@ -29,6 +28,8 @@ if(NOT CONFIG_DISABLE_ALL_SIGNALS)
     SRCS
     sig_procmask.c
     sig_suspend.c
+    sig_kill.c
+    sig_tgkill.c
     sig_queue.c
     sig_waitinfo.c
     sig_timedwait.c
@@ -37,13 +38,7 @@ if(NOT CONFIG_DISABLE_ALL_SIGNALS)
     sig_dispatch.c
     sig_pause.c
     sig_ppoll.c
-    sig_pselect.c
-    sig_cleanup.c
-    sig_initialize.c
-    sig_pending.c
-    sig_releasependingsignal.c
-    sig_removependingsignal.c
-    sig_unmaskpendingsignal.c)
+    sig_pselect.c)
 endif()
 
 if(CONFIG_ENABLE_ALL_SIGNALS)
@@ -52,9 +47,15 @@ if(CONFIG_ENABLE_ALL_SIGNALS)
     SRCS
     sig_action.c
     sig_allocpendingsigaction.c
+    sig_cleanup.c
     sig_deliver.c
     sig_findaction.c
-    sig_releasependingsigaction.c)
+    sig_initialize.c
+    sig_pending.c
+    sig_releasependingsigaction.c
+    sig_releasependingsignal.c
+    sig_removependingsignal.c
+    sig_unmaskpendingsignal.c)
 endif()
 
 if(CONFIG_SIG_DEFAULT)

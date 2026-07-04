@@ -240,7 +240,7 @@ int arm_svcall(int irq, void *context, void *arg)
        *   R4 = ucontext
        */
 
-#if defined(CONFIG_BUILD_PROTECTED) && defined(CONFIG_ENABLE_ALL_SIGNALS)
+#ifdef CONFIG_BUILD_PROTECTED
       case SYS_signal_handler:
         {
           struct tcb_s *rtcb   = this_task();
@@ -282,7 +282,7 @@ int arm_svcall(int irq, void *context, void *arg)
        *   R0 = SYS_signal_handler_return
        */
 
-#if defined(CONFIG_BUILD_PROTECTED) && defined(CONFIG_ENABLE_ALL_SIGNALS)
+#ifdef CONFIG_BUILD_PROTECTED
       case SYS_signal_handler_return:
         {
           struct tcb_s *rtcb   = this_task();
